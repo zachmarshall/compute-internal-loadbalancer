@@ -6,7 +6,7 @@ until [ `gcloud components update -q` ] || [ "$RETRY_COUNT" -gt 12 ]; do
     sleep 5
     ((RETRY_COUNT++))
 done
-INSTANCE_GROUP_NAME=$(curl -s -H "Metadata-Flavor: Google" http://metadata.google.internal/computeMetadata/v1/instance/attributes/instance_group_name)
+INSTANCE_GROUP_NAME=$(curl -s -H "Metadata-Flavor: Google" http://metadata.google.internal/computeMetadata/v1/instance/attributes/created-by | sed 's:.*/::')
 ZONE=$(curl -s -H "Metadata-Flavor: Google" http://metadata.google.internal/computeMetadata/v1/instance/zone | sed 's:.*/::')
 INSTANCES=($(gcloud --format='value(instance)' compute instance-groups list-instances $INSTANCE_GROUP_NAME --zone=$ZONE))
 args="CONSUL_SERVERS=-bootstrap-expect=${#INSTANCES[@]} "
