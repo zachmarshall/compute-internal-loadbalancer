@@ -1,7 +1,5 @@
 [Unit]
 Description=consul_servers
-After=syslog.target network.target network-online.target remote-fs.target nss-lookup.target
-After=google-accounts-daemon.service
 
 [Service]
 Type=oneshot
